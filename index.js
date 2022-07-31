@@ -11,6 +11,10 @@ app.use(
 );
 app.use(express.json());
 
+app.get("/", (_, res) => {
+  res.send("Hi from TRGT Assignment Backend");
+});
+
 app.post("/validate", async (req, res) => {
   const { url } = req.body;
 
