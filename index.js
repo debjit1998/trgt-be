@@ -16,9 +16,15 @@ app.get("/", (_, res) => {
 });
 
 app.post("/validate", async (req, res) => {
-  const { url } = req.body;
+  let { url } = req.body;
+
+  if (!url) return res.json({ valid: false });
 
   try {
+    if (!url.startsWith("http://") && !url.startsWith("https://")) {
+      url = `http://${url}`;
+    }
+
     const response = await axios.get(url);
     if (String(response.status).startsWith("2")) {
       res.json({ valid: true });
