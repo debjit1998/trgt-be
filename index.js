@@ -21,8 +21,11 @@ app.post("/validate", async (req, res) => {
   if (!url) return res.json({ valid: false });
 
   try {
-    if (!url.startsWith("http://") && !url.startsWith("https://")) {
+    const startRegex = new RegExp("^(https?:\\/?\\/?)", "i");
+    if (!startRegex.test(url)) {
       url = `http://${url}`;
+    } else {
+      url = url.replace(startRegex, "http://");
     }
 
     const response = await axios.get(url);
